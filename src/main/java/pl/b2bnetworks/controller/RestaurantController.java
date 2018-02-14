@@ -5,11 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.b2bnetworks.dao.ClientDao;
 import pl.b2bnetworks.domain.Client;
 import pl.b2bnetworks.services.IClientServices;
 import pl.b2bnetworks.util.ClientUtils;
 
 import java.util.List;
+
+import static java.util.stream.LongStream.builder;
+import static pl.b2bnetworks.util.ClientUtils.dailyIncome;
 
 @RestController
 public class RestaurantController {
@@ -23,10 +27,8 @@ public class RestaurantController {
     }
 
     @RequestMapping(value = "/addClient", method = RequestMethod.PUT)
-    public String addClient(@RequestParam("surname") String surname, @RequestParam("order") double order) {
-        Client client = new Client();
-        client.builder().surname(surname).order(order).build();
-
+    public String addClient(@RequestParam("surname") String surname, @RequestParam("positionFromMenu") double positionFromMenu) {
+        Client client = Client.builder().surname(surname).positionFromMenu(positionFromMenu).build();
         iClientServices.save(client);
         return "completed";
     }
@@ -38,10 +40,10 @@ public class RestaurantController {
 
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public String updateClient(@RequestParam("id") Long id, @RequestParam("surname") String surname,
-                               @RequestParam("order") double order) {
+                               @RequestParam("positionFromMenu") double positionFromMenu) {
         Client client = iClientServices.findOne(id);
         client.setSurname(surname);
-        client.setOrder(order);
+        client.setPositionFromMenu(positionFromMenu);
         iClientServices.save(client);
         return "completed";
     }
@@ -52,10 +54,11 @@ public class RestaurantController {
         return "completed";
     }
 
-    private ClientUtils clientUtils = new ClientUtils();
     @RequestMapping(value = "/dailyIncome", method = RequestMethod.GET)
     public String dailyIncomeShow() {
-        return "daily income: " + clientUtils.dailyIncome((List<Client>)iClientServices);
+        List<Client> clients = (List<Client>) iClientServices;
+        double result = dailyIncome(clients);
+        return "daily income: " + result;
     }
 
 

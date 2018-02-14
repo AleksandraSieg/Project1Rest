@@ -21,5 +21,5 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String surname;
-    private double order;
+    private double positionFromMenu;
 }

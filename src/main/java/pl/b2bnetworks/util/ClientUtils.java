@@ -6,11 +6,11 @@ import java.util.List;
 
 public class ClientUtils {
 
-    public double dailyIncome(List<Client> clients) {
+    public static double dailyIncome(List<Client> clients) {
         double sum = 0;
 
         for (Client client : clients) {
-            sum = sum + client.getOrder();
+            sum = sum + client.getPositionFromMenu();
         }
 
         return sum;

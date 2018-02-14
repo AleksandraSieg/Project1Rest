@@ -17,9 +17,9 @@ public class ProjectRestaurantApp implements CommandLineRunner {
     private ClientDao clientDao;
 
     public void run(String... strings) throws Exception {
-        Client client1 = Client.builder().surname("Kowalski").order(50.40).build();
+        Client client1 = Client.builder().surname("Kowalski").positionFromMenu(50.40).build();
         clientDao.save(client1);
-        Client client2 = Client.builder().surname("Nowak").order(90.40).build();
+        Client client2 = Client.builder().surname("Nowak").positionFromMenu(90.40).build();
         clientDao.save(client2);
     }
 }
