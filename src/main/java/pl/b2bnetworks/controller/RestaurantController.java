@@ -56,7 +56,7 @@ public class RestaurantController {
 
     @RequestMapping(value = "/dailyIncome", method = RequestMethod.GET)
     public String dailyIncomeShow() {
-        List<Client> clients = (List<Client>) iClientServices;
+        List<Client> clients = (List<Client>) iClientServices.findAll();
         double result = dailyIncome(clients);
         return "daily income: " + result;
     }
